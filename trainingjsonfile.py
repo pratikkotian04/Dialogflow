@@ -1,18 +1,19 @@
 import json
 from uuid import uuid4
 
-def userSays(row):
-        userSays = []
-        for i in row[12:]:
-            if(i):
-                userSays.append({"id": "","data": [{"text": i,"userDefined": "false"}],"isTemplate": "false","count": 0,"lang":row[10] or "en","updated": 0})
-        return userSays
 
+def userSays(row):
+    userSays = []
+    for i in row[12:]:
+        if(i):
+            userSays.append({"id": "", "data": [{"text": i, "userDefined": "false"}],
+                            "isTemplate": "false", "count": 0, "lang": row[10] or "en", "updated": 0})
+    return userSays
 
 
 def noFollowup(row):
     def webhook(row):
-        if(row=="" or row.lower()=="false"):
+        if(row == "" or row.lower() == "false"):
             return False
         else:
             return True
@@ -23,15 +24,15 @@ def noFollowup(row):
         "contexts": [],
         "responses": [
             {
-                "resetContexts": "false",
+                "resetContexts": False,
                 "affectedContexts": [],
                 "parameters": [],
                 "messages": [
                     {
                         "type": 0,
                         "lang": row[10] or "en",
-                                "condition": "",
-                                "speech": row[1]
+                        "condition": "",
+                        "speech": row[1]
                     }
                 ],
                 "defaultResponsePlatforms": {},
@@ -52,18 +53,18 @@ def noFollowup(row):
 
 def inputContext(row):
     def webhook(row):
-        if(row=="" or row.lower()=="false"):
+        if(row == "" or row.lower() == "false"):
             return False
         else:
             return True
     inputContext = {
         "id": "",
         "name": row[0],
-        "auto": "true",
+        "auto": True,
         "contexts": [],
         "responses": [
             {
-                "resetContexts": "false",
+                "resetContexts": False,
                 "affectedContexts": [
                     {
                         "name": row[3],
@@ -98,20 +99,20 @@ def inputContext(row):
 
 def outputContext(row):
     def webhook(row):
-        if(row=="" or row.lower()=="false"):
+        if(row == "" or row.lower() == "false"):
             return False
         else:
             return True
     outputContext = {
-        "id": "",
+        "id": row[7] or "",
         "name": row[0],
-        "auto": "true",
+        "auto": True,
         "contexts": [
             row[4]
         ],
         "responses": [
             {
-                "resetContexts": "false",
+                "resetContexts": False,
                 "affectedContexts": [],
                 "parameters": [],
                 "messages": [
@@ -140,7 +141,7 @@ def outputContext(row):
 
 def outputOutputContext(row):
     def webhook(row):
-        if(row=="" or row.lower()=="false"):
+        if(row == "" or row.lower() == "false"):
             return False
         else:
             return True
@@ -233,11 +234,11 @@ def outputOutputContext(row):
         outputOutputContext = {
             "id": row[7] or "",
             "name": row[0],
-            "auto": "true",
+            "auto": True,
             "contexts": inputnewcontext(row[4]),
             "responses": [
                 {
-                    "resetContexts": "false",
+                    "resetContexts": False,
                     "affectedContexts": outputnewcontext(row[3]),
                     "parameters": [],
                     "messages": [
@@ -270,7 +271,7 @@ def outputOutputContext(row):
 
 def defaultcontext(row):
     def webhook(row):
-        if(row=="" or row.lower()=="false"):
+        if(row == "" or row.lower() == "false"):
             return False
         else:
             return True
@@ -337,8 +338,8 @@ def defaultcontext(row):
                     # }
                 ],
                 "defaultResponsePlatforms": {
-                        "google": "true"
-                    },
+                    "google": "true"
+                },
                 "speech": []
             }
         ],
