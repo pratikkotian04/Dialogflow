@@ -6,8 +6,8 @@ def userSays(row):
     userSays = []
     for i in row[12:]:
         if(i):
-            userSays.append({"id": "", "data": [{"text": i, "userDefined": "false"}],
-                            "isTemplate": "false", "count": 0, "lang": row[10] or "en", "updated": 0})
+            userSays.append({"id": "", "data": [{"text": i, "userDefined": False}],
+                            "isTemplate": False, "count": 0, "lang": row[10] or "en", "updated": 0})
     return userSays
 
 
@@ -33,6 +33,15 @@ def noFollowup(row):
                         "lang": row[10] or "en",
                         "condition": "",
                         "speech": row[1]
+                    },
+                    {
+                        "type": 14,
+                        "platform": "telephony",
+                        "title": "",
+                        "textToSpeech": "",
+                        "lang": row[10] or "en",
+                        "text": row[2],
+                        "condition": ""
                     }
                 ],
                 "defaultResponsePlatforms": {},
@@ -41,8 +50,8 @@ def noFollowup(row):
         ],
         "priority": 500000,
         "webhookUsed": webhook(row[8]),
-        "webhookForSlotFilling": "false",
-        "fallbackIntent": "false",
+        "webhookForSlotFilling": False,
+        "fallbackIntent": False,
         "events": [],
         "conditionalResponses": [],
         "condition": "",
@@ -79,6 +88,15 @@ def inputContext(row):
                         "lang": row[10] or "en",
                         "condition": "",
                         "speech": row[1]
+                    },
+                    {
+                        "type": 14,
+                        "platform": "telephony",
+                        "title": "",
+                        "textToSpeech": "",
+                        "lang": row[10] or "en",
+                        "text": row[2],
+                        "condition": ""
                     }
                 ],
                 "defaultResponsePlatforms": {},
@@ -87,8 +105,8 @@ def inputContext(row):
         ],
         "priority": 500000,
         "webhookUsed": webhook(row[8]),
-        "webhookForSlotFilling": "false",
-        "fallbackIntent": "false",
+        "webhookForSlotFilling": False,
+        "fallbackIntent": False,
         "events": [],
         "conditionalResponses": [],
         "condition": "",
@@ -121,6 +139,15 @@ def outputContext(row):
                         "lang": row[10] or "en",
                         "condition": "",
                         "speech": row[1]
+                    },
+                    {
+                        "type": 14,
+                        "platform": "telephony",
+                        "title": "",
+                        "textToSpeech": "",
+                        "lang": row[10] or "en",
+                        "text": row[2],
+                        "condition": ""
                     }
                 ],
                 "defaultResponsePlatforms": {},
@@ -129,8 +156,8 @@ def outputContext(row):
         ],
         "priority": 500000,
         "webhookUsed": webhook(row[8]),
-        "webhookForSlotFilling": "false",
-        "fallbackIntent": "false",
+        "webhookForSlotFilling": False,
+        "fallbackIntent": False,
         "events": [],
         "conditionalResponses": [],
         "condition": "",
@@ -171,26 +198,29 @@ def outputOutputContext(row):
             inputnewcontext.append(i)
         return inputnewcontext
 
-    data = chip(row[6])[0].get("text", "")
+    #data = chip(row[6])[0].get("text", "")
+    data = row[6]
 
     if data:
         outputOutputContext = {
             "id": row[7] or "",
             "name": row[0],
-            "auto": "true",
+            "auto": True,
             "contexts": inputnewcontext(row[4]),
             "responses": [
                 {
-                    "resetContexts": "false",
+                    "resetContexts": False,
                     "affectedContexts": outputnewcontext(row[3]),
                     "parameters": [],
                     "messages": [
                         {
-                            "type": "suggestion_chips",
-                            "platform": "google",
+                            "type": 14,
+                            "platform": "telephony",
+                            "title": "",
+                            "textToSpeech": "",
                             "lang": row[10] or "en",
-                            "condition": "",
-                            "suggestions": chipgoogle(row[6])
+                            "text": row[2],
+                            "condition": ""
                         },
                         {
                             "type": 0,
@@ -202,29 +232,20 @@ def outputOutputContext(row):
                             "type": 4,
                             "lang": row[10] or "en",
                             "condition": "",
-                            "payload": {
-                                "richContent": [
-                                    [
-                                        {
-                                            "type": "chips",
-                                            "options": chip(row[6])
-                                        }
-                                    ]
-                                ]
-                            }
+                            "payload": json.loads(row[6])
                         }
 
                     ],
                     "defaultResponsePlatforms": {
-                        "google": "true"
+                        "google": True
                     },
                     "speech": []
                 }
             ],
             "priority": 500000,
             "webhookUsed": webhook(row[8]),
-            "webhookForSlotFilling": "false",
-            "fallbackIntent": "false",
+            "webhookForSlotFilling": False,
+            "fallbackIntent": False,
             "events": [],
             "conditionalResponses": [],
             "condition": "",
@@ -247,19 +268,28 @@ def outputOutputContext(row):
                             "lang": row[10] or "en",
                             "condition": "",
                             "speech": row[1]
+                        },
+                        {
+                            "type": 14,
+                            "platform": "telephony",
+                            "title": "",
+                            "textToSpeech": "",
+                            "lang": row[10] or "en",
+                            "text": row[2],
+                            "condition": ""
                         }
 
                     ],
                     "defaultResponsePlatforms": {
-                        "google": "true"
+                        "google": True
                     },
                     "speech": []
                 }
             ],
             "priority": 500000,
             "webhookUsed": webhook(row[8]),
-            "webhookForSlotFilling": "false",
-            "fallbackIntent": "false",
+            "webhookForSlotFilling": False,
+            "fallbackIntent": False,
             "events": [],
             "conditionalResponses": [],
             "condition": "",
@@ -271,7 +301,7 @@ def outputOutputContext(row):
 
 def defaultcontext(row):
     def webhook(row):
-        if(row == "" or row.lower() == "false"):
+        if(row == "" or row.lower() == False):
             return False
         else:
             return True
@@ -294,62 +324,138 @@ def defaultcontext(row):
             inputnewcontext.append(i)
         return inputnewcontext
 
-    defaultcontext = {
-        "id": "",
-        "parentId": row[7] or "",
-        "rootParentId": row[7] or "",
-        "name": row[0],
-        "auto": "false",
-        "contexts": inputnewcontext(row[4]),
-        "responses": [
-            {
-                "resetContexts": "false",
-                "action": "",
-                "affectedContexts": [],
-                "parameters": [],
-                "messages": [
-                    # {
-                    #     "type": "suggestion_chips",
-                    #     "platform": "google",
-                    #     "lang": row[10] or "en",
-                    #     "condition": "",
-                    #     "suggestions": chipgoogle(row[6])
-                    # },
-                    {
-                        "type": 0,
-                        "lang": row[10] or "en",
-                        "condition": "",
-                        "speech": row[1]
+    if row[0] == "Default Fallback Intent":
+        defaultcontext = {
+            "id": row[7].split("||")[0] or "",
+            "name": row[0],
+            "auto": False,
+            "contexts": inputnewcontext(row[4]),
+            "responses": [
+                {
+                    "resetContexts": False,
+                    "action": "",
+                    "affectedContexts": [],
+                    "parameters": [],
+                    "messages": [
+                        # {
+                        #     "type": "suggestion_chips",
+                        #     "platform": "google",
+                        #     "lang": row[10] or "en",
+                        #     "condition": "",
+                        #     "suggestions": chipgoogle(row[6])
+                        # },
+                        {
+                            "type": 0,
+                            "lang": row[10] or "en",
+                            "condition": "",
+                            "speech": row[1]
+                        },
+                        {
+                            "type": 14,
+                            "platform": "telephony",
+                            "title": "",
+                            "textToSpeech": "",
+                            "lang": row[10] or "en",
+                            "text": row[2],
+                            "condition": ""
+                        }
+                        # {
+                        #     "type": 4,
+                        #     "lang": row[10] or "en",
+                        #     "condition": "",
+                        #     "payload": {
+                        #         "richContent": [
+                        #             [
+                        #                 {
+                        #                     "type": "chips",
+                        #                     "options": chip(row[6])
+                        #                 }
+                        #             ]
+                        #         ]
+                        #     }
+                        # }
+                    ],
+                    "defaultResponsePlatforms": {
+                        "google": True
                     },
-                    # {
-                    #     "type": 4,
-                    #     "lang": row[10] or "en",
-                    #     "condition": "",
-                    #     "payload": {
-                    #         "richContent": [
-                    #             [
-                    #                 {
-                    #                     "type": "chips",
-                    #                     "options": chip(row[6])
-                    #                 }
-                    #             ]
-                    #         ]
-                    #     }
-                    # }
-                ],
-                "defaultResponsePlatforms": {
-                    "google": "true"
-                },
-                "speech": []
-            }
-        ],
-        "priority": 500000,
-        "webhookUsed": webhook(row[8]),
-        "webhookForSlotFilling": "false",
-        "fallbackIntent": "true",
-        "events": [],
-        "conditionalResponses": [],
-        "condition": "",
-        "conditionalFollowupEvents": []
-    }
+                    "speech": []
+                }
+            ],
+            "priority": 500000,
+            "webhookUsed": webhook(row[8]),
+            "webhookForSlotFilling": False,
+            "fallbackIntent": True,
+            "events": [],
+            "conditionalResponses": [],
+            "condition": "",
+            "conditionalFollowupEvents": []
+        }
+    else:
+        defaultcontext = {
+            "id": row[7].split("||")[0] or "",
+            "parentId": row[7].split("||")[1] or "",
+            "rootParentId": row[7].split("||")[1] or "",
+            "name": row[0],
+            "auto": False,
+            "contexts": inputnewcontext(row[4]),
+            "responses": [
+                {
+                    "resetContexts": False,
+                    "action": "",
+                    "affectedContexts": [],
+                    "parameters": [],
+                    "messages": [
+                        # {
+                        #     "type": "suggestion_chips",
+                        #     "platform": "google",
+                        #     "lang": row[10] or "en",
+                        #     "condition": "",
+                        #     "suggestions": chipgoogle(row[6])
+                        # },
+                        {
+                            "type": 0,
+                            "lang": row[10] or "en",
+                            "condition": "",
+                            "speech": row[1]
+                        },
+                        {
+                            "type": 14,
+                            "platform": "telephony",
+                            "title": "",
+                            "textToSpeech": "",
+                            "lang": row[10] or "en",
+                            "text": row[2],
+                            "condition": ""
+                        }
+                        # {
+                        #     "type": 4,
+                        #     "lang": row[10] or "en",
+                        #     "condition": "",
+                        #     "payload": {
+                        #         "richContent": [
+                        #             [
+                        #                 {
+                        #                     "type": "chips",
+                        #                     "options": chip(row[6])
+                        #                 }
+                        #             ]
+                        #         ]
+                        #     }
+                        # }
+                    ],
+                    "defaultResponsePlatforms": {
+                        "google": True
+                    },
+                    "speech": []
+                }
+            ],
+            "priority": 500000,
+            "webhookUsed": webhook(row[8]),
+            "webhookForSlotFilling": False,
+            "fallbackIntent": True,
+            "events": [],
+            "conditionalResponses": [],
+            "condition": "",
+            "conditionalFollowupEvents": []
+        }
     return defaultcontext
