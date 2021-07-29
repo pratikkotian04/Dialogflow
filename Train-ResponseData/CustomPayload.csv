@@ -1,0 +1,4 @@
+Intent Name,Output,Input,Fallback,Custom Payload,id,Webhook,End of Conversation
+ides.UI_benefits_Covid19,eligibility=1,,,"{'richContent': [[{'image': {'src': {'rawUrl': 'https://www2.illinois.gov/ides/Style%20Library/SOIMetro/Images/SiteLogo.png'}}, 'subtitle': '', 'type': 'info', 'actionLink': 'https://www2.illinois.gov/ides/aboutides/Pages/10%20Things%20You%20Should%20Know.aspx', 'title': 'About unemployment insurance'}]]}",,TRUE,FALSE
+ides.file_online,,,,{},,TRUE,FALSE
+ides.office_open,,,,,,TRUE,FALSE
